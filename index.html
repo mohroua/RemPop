@@ -2,67 +2,95 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>RemPop v1.1</title>
+  <title>نافذة تذكير بالصور</title>
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
-      padding-top: 50px;
+      padding: 20px;
       background-color: #f0f0f0;
     }
-    .popup {
-      display: none;
+    #popup {
       position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 20px;
+      right: 20px;
+      width: 200px;
+      height: 200px;
       background-color: white;
-      border: 2px solid #444;
-      padding: 20px;
+      border: 2px solid #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      display: none;
+      padding: 5px;
       z-index: 9999;
-      box-shadow: 0 0 15px #00000077;
-      border-radius: 10px;
     }
-    .popup img {
-      max-width: 300px;
-      max-height: 300px;
-      border-radius: 10px;
+    #popup img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    input, button {
+      margin: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>RemPop v1.1 - مراجعة بالصور</h1>
-  <p>سيتم عرض الصور تلقائيًا بشكل منبثق كل 5 ثوانٍ.</p>
+  <h2>🔔 أداة تذكير بالصور</h2>
+  <p>اختر صورًا وستظهر على شكل نوافذ منبثقة كل فترة زمنية محددة</p>
 
-  <div id="popup" class="popup">
-    <img id="popup-img" src="" alt="صورة التذكير" />
+  <input type="file" id="images" accept="image/*" multiple>
+  <br>
+  <label>المدة بين كل ظهور (بالثواني):</label>
+  <input type="number" id="interval" value="30" min="5">
+  <br>
+  <label>مدة عرض الصورة (بالثواني):</label>
+  <input type="number" id="displayTime" value="5" min="1">
+  <br>
+  <button onclick="startReminder()">ابدأ التذكير</button>
+
+  <div id="popup">
+    <img id="popupImage" src="" alt="تذكير بالصورة">
   </div>
 
   <script>
-    const images = [
-      "img1.jpg",
-      "img2.jpg",
-      "img3.jpg"
-    ];
+    let imageList = [];
     let index = 0;
+    let intervalId;
 
-    function showPopup() {
-      const popup = document.getElementById("popup");
-      const img = document.getElementById("popup-img");
+    function startReminder() {
+      const files = document.getElementById('images').files;
+      const interval = parseInt(document.getElementById('interval').value) * 1000;
+      const displayTime = parseInt(document.getElementById('displayTime').value) * 1000;
 
-      img.src = images[index];
-      popup.style.display = "block";
+      if (files.length === 0) {
+        alert("يرجى اختيار صور أولا");
+        return;
+      }
 
-      setTimeout(() => {
-        popup.style.display = "none";
-        index = (index + 1) % images.length;
-        setTimeout(showPopup, 5000); // الوقت بين الصور
-      }, 4000); // مدة عرض الصورة
+      imageList = Array.from(files).map(file => URL.createObjectURL(file));
+      index = 0;
+
+      if (intervalId) clearInterval(intervalId);
+
+      intervalId = setInterval(() => {
+        showImage(imageList[index], displayTime);
+        index = (index + 1) % imageList.length;
+      }, interval);
+
+      // عرض أول صورة فورًا
+      showImage(imageList[index], displayTime);
+      index = (index + 1) % imageList.length;
     }
 
-    window.onload = () => {
-      setTimeout(showPopup, 2000); // أول ظهور بعد ثانيتين
-    };
+    function showImage(src, duration) {
+      const popup = document.getElementById('popup');
+      const img = document.getElementById('popupImage');
+      img.src = src;
+      popup.style.display = 'block';
+
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, duration);
+    }
   </script>
 </body>
 </html>
