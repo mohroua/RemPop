@@ -18,7 +18,7 @@
       width: 200px;
       height: 200px;
       background-color: white;
-      border: 2px solid #333;
+      border: 8px solid #333;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
       display: none;
       padding: 5px;
