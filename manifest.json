@@ -1,0 +1,22 @@
+{
+    "name": "رفيق الحافظ",
+    "short_name": "حفظ القرآن",
+    "description": "مساعد شخصي لحفظ ومراجعة القرآن الكريم بطريقة الدقيقتين والأسطر المتدرجة.",
+    "start_url": "/hifz_app_pwa.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#00897b",
+    "theme_color": "#00897b",
+    "icons": [
+        {
+            "src": "images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
