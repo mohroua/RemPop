@@ -363,7 +363,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   
   confBtns.forEach(b=>b.onclick=e=>handleConfidence(parseInt(e.target.dataset.rating)));
 });
-<script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')
@@ -375,7 +374,6 @@ document.addEventListener('DOMContentLoaded',()=>{
                 });
         });
     }
-
 </script>
 </body>
 </html>
